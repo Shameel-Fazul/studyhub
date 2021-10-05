@@ -111,7 +111,9 @@ def createRoom(request):
     if request.method == 'POST':
         form = RoomForm(request.POST) # creates a new room model instance and infers data from the request body
         if form.is_valid():
-            form.save()
+            room = form.save(commit=False)
+            room.host = request.user
+            room.save()
             return redirect('home')
    
     context = { 'form': form }
